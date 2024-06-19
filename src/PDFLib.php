@@ -207,6 +207,27 @@ class PDFLib{
         }
     }
 
+    public function splitPDF($inputPdf, $outputPath)
+    {
+        $input_basename= basename($inputPdf);
+        $output_path_prefix = $outputPath  . "/". $input_basename;
+        // Get the number of pages in the input PDF
+        $output = $this->executeGS("-q -dNODISPLAY -c \"(" . $inputPdf . ") (r) file runpdfbegin pdfpagecount = quit\"");
+        $number_of_pages = intval($output[0]);
+
+        // Array to hold the file paths of the split PDFs
+        $filePaths = [];
+
+        // Loop through each page and create individual PDF files
+        for ($i = 1; $i <= $number_of_pages; $i++) {
+            $output = $this->executeGS("-sDEVICE=pdfwrite -dSAFER -o " . $output_path_prefix . "_%d.pdf -dBATCH -dNOPAUSE " . $inputPdf);
+            $filePaths[] = $output_path_prefix . "_$i.pdf";
+        }
+
+        // Return the array of file paths
+        return $filePaths;
+    }
+
     public function getGSVersion(){
         return $this->gs_version ? $this->gs_version : -1;
     }

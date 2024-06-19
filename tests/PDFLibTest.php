@@ -134,6 +134,15 @@ class PDFLibTest extends PHPUnit_Framework_TestCase
         self::assertTrue($pdfLib->getNumberOfPages() == count($fullpaths));
     }
 
+    public function testSplitPdf() {
+        self::clean();
+        $pdfLib = new \ImalH\PDFLib\PDFLib();
+        $outputPath = self::$_DATA_FOLDER;
+        $pdfLib->splitPDF(self::$_SAMPLE_PDF, $outputPath);
+        $fileCount = self::countFilesNameStartsWith($outputPath, basename(self::$_SAMPLE_PDF . "_"));
+        self::assertTrue($fileCount === 5);
+    }
+
 
 
     public static function tearDownAfterClass()
