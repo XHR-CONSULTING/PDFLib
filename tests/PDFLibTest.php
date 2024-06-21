@@ -139,7 +139,7 @@ class PDFLibTest extends PHPUnit_Framework_TestCase
         $pdfLib = new \ImalH\PDFLib\PDFLib();
         $outputPath = self::$_DATA_FOLDER;
         $pdfLib->splitPDF(self::$_SAMPLE_PDF, $outputPath);
-        $fileCount = self::countFilesNameStartsWith($outputPath, basename(self::$_SAMPLE_PDF . "_"));
+        $fileCount = self::countFilesNameStartsWith($outputPath, basename(self::$_SAMPLE_PDF) . "_");
         self::assertTrue($fileCount === 5);
     }
 
